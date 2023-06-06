@@ -1,0 +1,35 @@
+@import "../../assets/styles/colors";
+
+.input {
+	&-wrapper {
+    width: 100%;
+
+		& input {
+      width: 100%;
+			background-color: $gray500;
+			height: 54px;
+			display: flex;
+			align-items: center;
+			padding: 0 16px;
+			color: $gray100;
+			border: 1px solid transparent;
+			border-radius: 8px;
+			font-size: 16px;
+
+			&:focus {
+				border-color: $purple-dark;
+			}
+
+			&.input-error {
+				border-color: $danger;
+			}
+		}
+
+		& .error {
+			font-size: 14px;
+			color: $danger;
+			margin: 8px 0  0 8px;
+			display: inline-block;
+		}
+	}
+}

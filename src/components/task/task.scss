@@ -1,0 +1,55 @@
+@import "../../assets/styles/colors";
+
+.task {
+	display: flex;
+	align-items: flex-start;
+	padding: 16px;
+	background-color: $gray500;
+	border: 1px solid $gray400;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	border-radius: 8px;
+
+	& > *:not(:last-child) {
+		margin-right: 12px;
+	}
+
+	&.completed {
+		color: $gray300;
+		text-decoration: line-through;
+	}
+
+	&-container {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
+	&-title {
+		font-size: 20px;
+	}
+
+	&-date {
+		font-size: 14px;
+		margin-top: 8px;
+	}
+
+	&-basket {
+		width: 24px;
+		height: 24px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 4px;
+
+		&:hover {
+			cursor: pointer;
+			background-color: $gray400;
+
+			svg {
+				path {
+					fill: $danger;
+				}
+			}
+		}
+	}
+}

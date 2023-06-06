@@ -1,0 +1,15 @@
+.layout {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	&-container {
+		width: 100%;
+		padding: 16px 5px;
+		max-width: 746px;
+
+		& > *:not(:first-child) {
+			margin-top: 16px;
+		}
+	}
+}

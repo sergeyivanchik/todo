@@ -1,0 +1,20 @@
+.form {
+	display: flex;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
+
+	& > *:not(:last-child) {
+		margin-right: 8px;
+	}
+
+  &-button {
+    display: flex;
+
+    @media (max-width: 500px) {
+      justify-content: center;
+      margin-top: 8px;
+    }
+  }
+}

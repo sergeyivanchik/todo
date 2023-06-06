@@ -1,0 +1,28 @@
+@import "../../assets/styles/colors";
+
+.empty {
+	border-top: 1px solid $gray400;
+	border-radius: 8px;
+	padding: 64px 24px;
+
+	&-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	&-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+		font-size: 22px;
+		color: $gray300;
+    margin-top: 16px;
+    text-align: center;
+	}
+
+  &-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+}

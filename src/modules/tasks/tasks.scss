@@ -1,0 +1,12 @@
+.tasks {
+	margin-top: 22px;
+
+	& > *:not(:last-child) {
+		margin-bottom: 12px;
+	}
+
+	&-title {
+		font-size: 20px;
+		font-weight: 700;
+	}
+}

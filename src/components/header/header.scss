@@ -1,0 +1,10 @@
+@import "../../assets/styles/colors";
+
+.header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 150px;
+	background-color: $gray700;
+  width: 100%;
+}

@@ -1,0 +1,9 @@
+.counts {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+
+  & > *:not(:last-child) {
+    margin-right: 8px;
+  }
+}

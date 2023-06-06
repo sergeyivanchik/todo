@@ -1,0 +1,15 @@
+@import "../../assets/styles/colors";
+
+.button {
+	padding: 16px;
+	font-size: 20px;
+	font-weight: 700;
+	background-color: $blue-dark;
+	border-radius: 8px;
+	height: 54px;
+
+	&:hover {
+		cursor: pointer;
+		background-color: $blue;
+	}
+}

@@ -1,9 +1,15 @@
-import React from "react";
+import { Counts, Layout, Tasks, Form } from "../modules";
 
 import "./app.scss";
 
 const App = () => {
-	return <div className="App">123</div>;
+	return (
+		<Layout>
+			<Form />
+			<Counts />
+			<Tasks />
+		</Layout>
+	);
 };
 
 export { App };
