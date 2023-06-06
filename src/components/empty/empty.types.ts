@@ -1,6 +1,5 @@
-interface IEmptyProps {
-  title?: string;
-  subTitle?: string;
-}
+import { IEmpty } from "../../types";
+
+interface IEmptyProps extends IEmpty {}
 
 export type { IEmptyProps };

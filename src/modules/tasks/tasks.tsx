@@ -2,9 +2,11 @@ import { observer } from "mobx-react-lite";
 
 import Store from "../../store/store";
 
-import { ESort } from "../../enums";
+import { EEmptyTasks, ESort } from "../../enums";
 
 import { Empty, Input, Task } from "../../components";
+
+import { emptyData } from "./tasks.constants";
 
 import "./tasks.scss";
 
@@ -15,25 +17,14 @@ const Tasks = observer(() => {
 		!!sortedTasks.length && sortedTasks.map((t) => <Task {...t} key={t.id} />);
 	const hasEmpty =
 		!sortedTasks.length &&
-		((!sort && !searchValue && <Empty />) ||
+		((!sort && !searchValue && <Empty {...emptyData[EEmptyTasks.default]} />) ||
 			(sort === ESort.completed && (
-				<Empty
-					title="You don't have completed tasks yet"
-					subTitle="Finish at least one task"
-				/>
+				<Empty {...emptyData[EEmptyTasks.completed]} />
 			)) ||
 			(sort === ESort.incompleted && (
-				<Empty
-					title="You have no incompleted tasks"
-					subTitle="Add a new task or change the status of others"
-				/>
+				<Empty {...emptyData[EEmptyTasks.incompleted]} />
 			)) ||
-			(!!searchValue && (
-				<Empty
-					title="No results found"
-					subTitle="Change your search criteria"
-				/>
-			)));
+			(!!searchValue && <Empty {...emptyData[EEmptyTasks.search]} />));
 	const hasTitle = !sort
 		? "All"
 		: sort === ESort.completed
