@@ -4,3 +4,4 @@ export * from "./task";
 export * from "./empty";
 export * from "./input";
 export * from "./button";
+export * from "./loading";
