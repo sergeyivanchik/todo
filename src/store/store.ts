@@ -9,8 +9,7 @@ class Store {
 	tasks: ITask[] = [];
 	sort: null | ESort = null;
 	currentTask: ITask | null = null;
-	searchValue: string = "";
-  isLoading: boolean = false;
+	isLoading: boolean = false;
 
 	constructor() {
 		makeAutoObservable(this);
@@ -31,12 +30,7 @@ class Store {
 			? this.completed
 			: this.incompleted;
 
-		return currentTasks
-			.slice()
-			.sort((a, b) => a.order - b.order)
-			.filter((t) =>
-				t.title.toLowerCase().includes(this.searchValue.toLowerCase())
-			);
+		return currentTasks.slice().sort((a, b) => a.order - b.order);
 	}
 
 	remove = (id: ITask["id"]) => {
@@ -65,21 +59,18 @@ class Store {
 		this.tasks = tasks;
 	};
 
-	setSearchValue = (value: string) => {
-		this.searchValue = value;
-	};
+	fetchTasks = async (searchValue?: string) => {
+		const hasSearch = !!searchValue ? `?title_like=${searchValue}` : "";
 
-	fetchTodos = async () => {
 		try {
-      this.isLoading = true;
+			this.isLoading = true;
 			const { data } = await axios.get(
-				`${process.env.REACT_APP_API_URL}/tasks`
+				`${process.env.REACT_APP_API_URL}/tasks${hasSearch}`
 			);
-      runInAction(() => {
-        this.tasks = data;
-        this.isLoading = false;
-      })
-
+			runInAction(() => {
+				this.tasks = data;
+				this.isLoading = false;
+			});
 		} catch (err) {
 			console.error(err);
 		}

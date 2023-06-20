@@ -1,28 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 
 import Store from "../../store/store";
+import { useDebounce } from "../../hooks";
 
 import { EEmptyTasks, ESort } from "../../enums";
 
 import { Empty, Input, Loading, Task } from "../../components";
 
 import { emptyData } from "./tasks.constants";
+
 import "./tasks.scss";
 
 const Tasks = observer(() => {
-	const {
-		sortedTasks,
-		sort,
-		setSearchValue,
-		searchValue,
-		fetchTodos,
-		isLoading,
-	} = Store;
+	const [searchValue, setSearchValue] = useState("");
+	const debouncedSearchValue = useDebounce(searchValue);
+
+	const { sortedTasks, sort, fetchTasks, isLoading } = Store;
 
 	useEffect(() => {
-		fetchTodos();
-	}, []);
+		fetchTasks(debouncedSearchValue);
+	}, [debouncedSearchValue]);
 
 	const hasLoading = isLoading && <Loading />;
 	const hasTasks =
@@ -52,10 +50,10 @@ const Tasks = observer(() => {
 				onChange={setSearchValue}
 				value={searchValue}
 				placeholder="Search"
-				disabled={isLoading}
+				disabled={!searchValue && isLoading}
 			/>
 			<div className="tasks-title">{hasTitle} tasks</div>
-      {hasLoading}
+			{hasLoading}
 			{hasTasks}
 			{hasEmpty}
 		</div>
