@@ -43,8 +43,17 @@ class Store {
     }
 	};
 
-	add = (task: ITask) => {
-		this.tasks.push(task);
+	add = async (task: ITask) => {
+    try {
+       await axios.post(
+        `${process.env.REACT_APP_API_URL}/tasks`,
+        task
+      );
+
+      this.tasks.unshift(task);
+    } catch (err) {
+      console.error(err);
+    }
 	};
 
 	complete = (id: ITask["id"]) => {
