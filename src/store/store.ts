@@ -24,13 +24,11 @@ class Store {
 	}
 
 	get sortedTasks() {
-		let currentTasks = !this.sort
+		return !this.sort
 			? this.tasks
 			: this.sort === ESort.completed
 			? this.completed
 			: this.incompleted;
-
-		return currentTasks.slice().sort((a, b) => a.order - b.order);
 	}
 
 	remove = (id: ITask["id"]) => {
@@ -60,12 +58,12 @@ class Store {
 	};
 
 	fetchTasks = async (searchValue?: string) => {
-		const hasSearch = !!searchValue ? `?title_like=${searchValue}` : "";
+		const hasSearch = !!searchValue ? `&title_like=${searchValue}` : "";
 
 		try {
 			this.isLoading = true;
 			const { data } = await axios.get(
-				`${process.env.REACT_APP_API_URL}/tasks${hasSearch}`
+				`${process.env.REACT_APP_API_URL}/tasks?_sort=order&_order=desc${hasSearch}`
 			);
 			runInAction(() => {
 				this.tasks = data;
