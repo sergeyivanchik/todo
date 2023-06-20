@@ -31,8 +31,16 @@ class Store {
 			: this.incompleted;
 	}
 
-	remove = (id: ITask["id"]) => {
-		this.tasks = this.tasks.filter((t) => t.id !== id);
+	remove = async (id: ITask["id"]) => {
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/tasks/${id}`
+      );
+
+      this.tasks = this.tasks.filter((t) => t.id !== id);
+    } catch (err) {
+      console.error(err);
+    }
 	};
 
 	add = (task: ITask) => {
