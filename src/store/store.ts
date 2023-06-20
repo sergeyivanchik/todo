@@ -51,11 +51,11 @@ class Store {
 		}
 	};
 
-	complete = async (task: ITask) => {
+	change = async (task: ITask) => {
 		try {
 			const { data } = await axios.patch(
 				`${process.env.REACT_APP_API_URL}/tasks/${task.id}`,
-				{ ...task, completed: !task.completed }
+				task
 			);
 
 			this.tasks = this.tasks.map((t) =>

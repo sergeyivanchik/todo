@@ -5,6 +5,7 @@ import { convertDate } from "../../utils";
 import Store from "../../store/store";
 
 import { ITaskProps } from "./task.types";
+import { ITask } from "../../types";
 
 import { Checkbox } from "./checkbox";
 
@@ -16,7 +17,7 @@ const Task: FC<ITaskProps> = observer(
 	({ id, title, order, completed, date }) => {
 		const {
 			remove,
-			complete,
+			change,
 			changeCurrentTask,
 			currentTask,
 			tasks,
@@ -24,25 +25,36 @@ const Task: FC<ITaskProps> = observer(
 		} = Store;
 
 		const onRemove = () => remove(id);
-		const onComplete = () => complete({id, title, completed, date, order});
+		const onComplete = () =>
+			change({ id, title, completed: !completed, date, order });
 		const onDragStart = (e: DragEvent<HTMLDivElement>) => {
 			changeCurrentTask({ id, title, order, completed, date });
 		};
 		const onDragOver = (e: DragEvent<HTMLDivElement>) => {
 			e.preventDefault();
 		};
-		const onDrop = (e: DragEvent<HTMLDivElement>) => {
+		const onDrop = async (e: DragEvent<HTMLDivElement>) => {
 			e.preventDefault();
+			await change({
+				id,
+				completed,
+				order: (currentTask as ITask).order,
+				date,
+				title,
+			});
+			await change({ ...(currentTask as ITask), order });
 			changeTasks(
-				tasks.map((t) => {
-					if (t.id === id) {
-						return { ...t, order: currentTask?.order || t.order };
-					}
-					if (t.id === currentTask?.id) {
-						return { ...t, order };
-					}
-					return t;
-				})
+				tasks
+					.map((t) => {
+						if (t.id === id) {
+							return { ...t, order: (currentTask as ITask).order };
+						}
+						if (t.id === currentTask?.id) {
+							return { ...t, order };
+						}
+						return t;
+					})
+					.sort((a, b) => b.order - a.order)
 			);
 		};
 
