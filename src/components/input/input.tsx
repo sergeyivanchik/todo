@@ -9,6 +9,7 @@ const Input: FC<IInputProps> = ({
 	value,
 	error,
 	placeholder,
+	disabled,
 }) => {
 	const hasError = !!error && <span className="error">{error}</span>;
 
@@ -19,6 +20,7 @@ const Input: FC<IInputProps> = ({
 				onChange={(e) => onChange(e.target.value)}
 				placeholder={placeholder}
 				className={!!error ? "input-error" : ""}
+        disabled={disabled}
 			/>
 			{hasError}
 		</div>

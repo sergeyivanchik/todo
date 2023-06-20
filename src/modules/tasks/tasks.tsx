@@ -1,21 +1,36 @@
+import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 
 import Store from "../../store/store";
 
 import { EEmptyTasks, ESort } from "../../enums";
 
-import { Empty, Input, Task } from "../../components";
+import { Empty, Input, Loading, Task } from "../../components";
 
 import { emptyData } from "./tasks.constants";
-
 import "./tasks.scss";
 
 const Tasks = observer(() => {
-	const { sortedTasks, sort, setSearchValue, searchValue } = Store;
+	const {
+		sortedTasks,
+		sort,
+		setSearchValue,
+		searchValue,
+		fetchTodos,
+		isLoading,
+	} = Store;
 
+	useEffect(() => {
+		fetchTodos();
+	}, []);
+
+	const hasLoading = isLoading && <Loading />;
 	const hasTasks =
-		!!sortedTasks.length && sortedTasks.map((t) => <Task {...t} key={t.id} />);
+		!isLoading &&
+		!!sortedTasks.length &&
+		sortedTasks.map((t) => <Task {...t} key={t.id} />);
 	const hasEmpty =
+		!isLoading &&
 		!sortedTasks.length &&
 		((!sort && !searchValue && <Empty {...emptyData[EEmptyTasks.default]} />) ||
 			(sort === ESort.completed && (
@@ -37,8 +52,10 @@ const Tasks = observer(() => {
 				onChange={setSearchValue}
 				value={searchValue}
 				placeholder="Search"
+				disabled={isLoading}
 			/>
 			<div className="tasks-title">{hasTitle} tasks</div>
+      {hasLoading}
 			{hasTasks}
 			{hasEmpty}
 		</div>

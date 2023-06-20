@@ -1,37 +1,16 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
+import axios from "axios";
 
 import { ITask } from "../types";
 
 import { ESort } from "../enums";
 
 class Store {
-	tasks: ITask[] = [
-		{
-			id: 1686060062024,
-			order: 1686060062024,
-			title: "Task 1",
-			date: 1686060062024,
-			completed: true,
-		},
-		{
-			id: 1686060091868,
-			order: 1686060091868,
-			title: "Task 2",
-			date: 1686060091868,
-			completed: false,
-		},
-		{
-			id: 1686059959881,
-			order: 1686059959881,
-			title:
-				"Task 3 Task 3 Task 3 Task 3 Task 3 Task 3 Task 3 Task 3 Task 3 Task 3 Task 3 Task 3",
-			date: 1686059959881,
-			completed: false,
-		},
-	];
+	tasks: ITask[] = [];
 	sort: null | ESort = null;
 	currentTask: ITask | null = null;
 	searchValue: string = "";
+  isLoading: boolean = false;
 
 	constructor() {
 		makeAutoObservable(this);
@@ -55,7 +34,9 @@ class Store {
 		return currentTasks
 			.slice()
 			.sort((a, b) => a.order - b.order)
-			.filter((t) => t.title.toLowerCase().includes(this.searchValue.toLowerCase()));
+			.filter((t) =>
+				t.title.toLowerCase().includes(this.searchValue.toLowerCase())
+			);
 	}
 
 	remove = (id: ITask["id"]) => {
@@ -86,6 +67,22 @@ class Store {
 
 	setSearchValue = (value: string) => {
 		this.searchValue = value;
+	};
+
+	fetchTodos = async () => {
+		try {
+      this.isLoading = true;
+			const { data } = await axios.get(
+				`${process.env.REACT_APP_API_URL}/tasks`
+			);
+      runInAction(() => {
+        this.tasks = data;
+        this.isLoading = false;
+      })
+
+		} catch (err) {
+			console.error(err);
+		}
 	};
 }
 

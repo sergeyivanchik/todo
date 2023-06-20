@@ -3,6 +3,7 @@ interface IInputProps {
   value: string;
   placeholder?: string;
   error?: string;
+  disabled?: boolean;
 }
 
 export type { IInputProps };
