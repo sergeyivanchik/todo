@@ -32,34 +32,38 @@ class Store {
 	}
 
 	remove = async (id: ITask["id"]) => {
-    try {
-      await axios.delete(
-        `${process.env.REACT_APP_API_URL}/tasks/${id}`
-      );
+		try {
+			await axios.delete(`${process.env.REACT_APP_API_URL}/tasks/${id}`);
 
-      this.tasks = this.tasks.filter((t) => t.id !== id);
-    } catch (err) {
-      console.error(err);
-    }
+			this.tasks = this.tasks.filter((t) => t.id !== id);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	add = async (task: ITask) => {
-    try {
-       await axios.post(
-        `${process.env.REACT_APP_API_URL}/tasks`,
-        task
-      );
+		try {
+			await axios.post(`${process.env.REACT_APP_API_URL}/tasks`, task);
 
-      this.tasks.unshift(task);
-    } catch (err) {
-      console.error(err);
-    }
+			this.tasks.unshift(task);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
-	complete = (id: ITask["id"]) => {
-		this.tasks = this.tasks.map((t) =>
-			t.id === id ? { ...t, completed: !t.completed } : t
-		);
+	complete = async (task: ITask) => {
+		try {
+			const { data } = await axios.patch(
+				`${process.env.REACT_APP_API_URL}/tasks/${task.id}`,
+				{ ...task, completed: !task.completed }
+			);
+
+			this.tasks = this.tasks.map((t) =>
+				t.id === task.id ? data : t
+			);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	changeSort = (value: ESort) => {

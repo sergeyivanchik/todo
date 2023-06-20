@@ -24,7 +24,7 @@ const Task: FC<ITaskProps> = observer(
 		} = Store;
 
 		const onRemove = () => remove(id);
-		const onComplete = () => complete(id);
+		const onComplete = () => complete({id, title, completed, date, order});
 		const onDragStart = (e: DragEvent<HTMLDivElement>) => {
 			changeCurrentTask({ id, title, order, completed, date });
 		};
