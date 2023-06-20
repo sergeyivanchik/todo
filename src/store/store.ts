@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 import { ITask } from "../types";
 
-import { ESort } from "../enums/sort";
+import { ESort } from "../enums";
 
 class Store {
 	tasks: ITask[] = [
@@ -55,7 +55,7 @@ class Store {
 		return currentTasks
 			.slice()
 			.sort((a, b) => a.order - b.order)
-			.filter((t) => t.title.includes(this.searchValue));
+			.filter((t) => t.title.toLowerCase().includes(this.searchValue.toLowerCase()));
 	}
 
 	remove = (id: ITask["id"]) => {
